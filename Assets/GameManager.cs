@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI bestScoreText;
     [SerializeField] private TextMeshProUGUI curScoreText;
-
+    
     public static GameManager Instance => instance;
     private static GameManager instance;
 
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private List<Ball> balls;
     private List<Block> blocks;
+    private List<GreenOrb> greenOrbs;
     private List<Movable> moves;
     private List<GreenBall> greenBalls;
     public List<GreenBall> GreenBalls => greenBalls;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         balls.Add(startBall);
 
         blocks = new List<Block>();
+        greenOrbs = new List<GreenOrb>();
         moves = new List<Movable>();
         greenBalls = new List<GreenBall>();
     }
@@ -132,6 +134,26 @@ public class GameManager : MonoBehaviour
         CreateBlocks();
     }
 
+    public void OnGameOver()
+    {
+        inputController.SetInputActive(false);
+        foreach (var block in blocks)
+        {
+            if (block.gameObject.activeSelf)
+            {
+                block.Suicide();
+            }
+        }
+
+        foreach (var greenOrb in greenOrbs)
+        {
+            if(greenOrb.gameObject.activeSelf)
+            {
+                greenOrb.Suicide();
+            }
+        }
+    }
+
     private void OnBestScoreChange(int _Score)
     {
         bestScoreText.text = "최고 기록 : " + _Score;
@@ -147,6 +169,14 @@ public class GameManager : MonoBehaviour
         {
             totalBallPos = _Pos;
         }
+    }
+
+    public void AddBall()
+    {
+        var ball = PoolManager.GetBall();
+        ball.transform.position = totalBallPos;
+        ball.gameObject.SetActive(true);
+        balls.Add(ball);
     }
 
     private void CreateBlocks()
@@ -196,10 +226,14 @@ public class GameManager : MonoBehaviour
         var greenOrb = PoolManager.GetGreenOrb();
         greenOrb.SetActive(true);
         greenOrb.transform.position = spawnPoses[Random.Range(0, spawnPoses.Count)];
-        var movable = greenOrb.GetComponent<Movable>();
-        if(!moves.Contains(movable))
+        var greenOrbComponent = greenOrb.GetComponent<GreenOrb>();
+        if(!greenOrbs.Contains(greenOrbComponent))
         {
-            moves.Add(movable);
+            greenOrbs.Add(greenOrbComponent);
+        }
+        if (!moves.Contains(greenOrbComponent))
+        {
+            moves.Add(greenOrbComponent);
         }
 
         //블럭들 내려줌
@@ -213,13 +247,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var greenball in greenBalls)
         {
-            greenball.MoveToTargetAndActiveOff(totalBallPos, () => 
-            {
-                var ball = PoolManager.GetBall();
-                ball.transform.position = totalBallPos;
-                ball.gameObject.SetActive(true);
-                balls.Add(ball);
-            });
+            greenball.MoveToTargetAndActiveOff(totalBallPos, AddBall);
         }
         greenBalls.Clear();
 

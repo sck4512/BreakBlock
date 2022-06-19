@@ -10,6 +10,7 @@ namespace MJ.Manager
 
         public static int BestScore => bestScore;
         private static int bestScore;
+        public static int CurScore => curScore;
         private static int curScore;
 
         private static readonly string bestScoreSaveKey = "BestScore";

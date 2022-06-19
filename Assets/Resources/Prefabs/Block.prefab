@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 7901487007891374383}
   m_Layer: 7
   m_Name: Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7e65af42eecdb4eab8cb68d950f533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSound: {fileID: 0}
   spriteRenderer: {fileID: 2260058833592530635}
   anim: {fileID: 7924331093427948694}
   numberText: {fileID: 2260058833839518284}

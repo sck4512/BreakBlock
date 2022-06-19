@@ -4,7 +4,7 @@ using MJ.Data;
 using System.Collections;
 using System;
 using MJ.Manager;
-
+using Random = UnityEngine.Random;
 
 public sealed class Block : Movable
 {
@@ -53,6 +53,28 @@ public sealed class Block : Movable
         if (50 < leftTouchCount)
         {
             disableScore++;
+        }
+    }
+
+    public void Suicide()
+    {
+        StartCoroutine(SuicideRoutine());
+        IEnumerator SuicideRoutine()
+        {
+            var myTransform = transform;
+            var curPos = myTransform.position;
+            float shakeTime = 0.3f;
+            while (shakeTime > 0f)
+            {
+                shakeTime -= Time.deltaTime;
+                myTransform.position = curPos + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), 0f);
+
+                var color = spriteRenderer.color;
+                color.a -= Time.deltaTime * 3.3f;
+                spriteRenderer.color = color;
+                yield return null;
+            }
+            gameObject.SetActive(false);
         }
     }
 
