@@ -6,6 +6,7 @@ using System;
 using MJ.Manager;
 using Random = UnityEngine.Random;
 
+[DisallowMultipleComponent]
 public sealed class Block : Movable
 {
     [SerializeField] private AudioClip hitSound;

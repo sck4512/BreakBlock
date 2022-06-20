@@ -8,7 +8,8 @@ using TMPro;
 
 using Random = UnityEngine.Random;
 
-public class GameManager : MonoBehaviour
+[DisallowMultipleComponent]
+public sealed class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform[] spawnTransforms;
     [SerializeField] private InputController inputController;
@@ -99,7 +100,7 @@ public class GameManager : MonoBehaviour
 
             arrowTransform.position = totalBallPos;
             arrowTransform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg);
-            ballPreviewTransform.position = Physics2D.CircleCast(new Vector2(Mathf.Clamp(totalBallPos.x, -54, 54), Constants.BottomY), 1.7f, shootDirection, Mathf.Infinity, 1 << LayerMask.NameToLayer(Layers.WallLayerName) | 1 << LayerMask.NameToLayer(Layers.BlockLayerName)).centroid;
+            ballPreviewTransform.position = Physics2D.CircleCast(new Vector2(Mathf.Clamp(totalBallPos.x, -54, 54), Constants.BottomY), 1.72f, shootDirection, Mathf.Infinity, 1 << LayerMask.NameToLayer(Layers.WallLayerName) | 1 << LayerMask.NameToLayer(Layers.BlockLayerName)).centroid;
 
             RaycastHit2D hit = Physics2D.Raycast(totalBallPos, shootDirection, Mathf.Infinity, 1 << LayerMask.NameToLayer(Layers.WallLayerName) | 1 << LayerMask.NameToLayer(Layers.BlockLayerName));
 

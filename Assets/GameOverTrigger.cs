@@ -9,14 +9,10 @@ public class GameOverTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D _Other)
     {
-        Debug.Log(1);
         if(_Other.CompareTag(Tags.BlockTag))
         {
-            Debug.Log(2);
             onGameOver.Invoke();
-            Debug.Log(3);
             myCollider.enabled = false;
-            Debug.Log(4);
         }
     }
 }

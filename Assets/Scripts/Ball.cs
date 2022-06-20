@@ -3,7 +3,8 @@ using System.Collections;
 using System;
 using MJ.Data;
 
-public class Ball : MonoBehaviour
+[DisallowMultipleComponent]
+public sealed class Ball : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rigidBody;
 
